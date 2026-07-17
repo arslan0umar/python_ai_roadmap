@@ -9,7 +9,7 @@ building one project every day.
 - Calculator & number guessing game
 - Student marks analyzer & to-do list app
 - Library management system (OOP + JSON file handling)
-- Weather CLI app (REST API, error handling) → [separate repo](your weather-cli link)
+- Weather CLI app (REST API, error handling)
 
 ### Week 2 — Data, Text & Embeddings
 - IPL matches EDA (Pandas, groupby, filtering)

@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.env
+venv/
+*.xlsx
+
+# ignore all CSVs except the dataset
+!week2/cricketdata/matches.csv

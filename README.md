@@ -15,7 +15,7 @@ building one project every day.
 - IPL matches EDA (Pandas, groupby, filtering)
 - IPL data cleaning (null handling, type conversion, normalization)
 - Text cleaner & tokenizer (NLTK, regex, POS-aware lemmatization)
-- Semantic search over notes (coming)
+- Semantic search over OS/AI notes (sentence-transformers, cosine similarity)
 
 ### Week 3 — Generative AI & Prompt Engineering
 *(coming)*

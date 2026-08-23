@@ -132,6 +132,7 @@ for i in range(len(queries)):
         final_response = client.chat.completions.create(
             model="openai/gpt-oss-20b",
             messages=message,
+            tools=tools,
             max_tokens=2048
         )
 

@@ -8,97 +8,97 @@ client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 queries = [
     "Hi",
-    "What are Virat Kohli's IPL stats?",
-    "What is the strike rate if a player scored 85 runs off 62 balls?",
-    "Compare Rohit Sharma and MS Dhoni",
+    "What do you know about the WannaCry malware family?",
+    "What is the detection confidence if a sample scores 0.87 on 42 signature checks?",
+    "Compare WannaCry and NotPetya",
 ]
 
 tools = [
     {
         "type": "function",
         "function": {
-            "name": "get_cricket_stats",
-            "description": "Get the stats of the given player",
+            "name": "get_malware_info",
+            "description": "Get known information about a malware family",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "player_name": {
+                    "malware_name": {
                         "type": "string",
-                        "description": "Player Name e.g Rohit Sharma, Virat Kohli etc"
+                        "description": "Malware family name e.g WannaCry, NotPetya, Emotet etc"
                     }
                 },
-                "required": ["player_name"]
+                "required": ["malware_name"]
             }
         }
     },
     {
         "type": "function",
         "function": {
-            "name": "calculate_strike_rate", 
-            "description": "Calculate the strike rate of the given runs and balls",
+            "name": "calculate_detection_confidence",
+            "description": "Calculate detection confidence percentage from a score and number of signature checks",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "runs": {
-                        "type": "integer",
-                        "description": "Runs e.g 50, 70 etc"
+                    "score": {
+                        "type": "number",
+                        "description": "Raw detection score e.g 0.87, 0.65 etc"
                     },
-                    "balls": {
+                    "checks": {
                         "type": "integer",
-                        "description": "Balls e.g 30, 26 etc"
+                        "description": "Number of signature checks performed e.g 42, 30 etc"
                     }
                 },
-                "required": ["runs", "balls"]
+                "required": ["score", "checks"]
             }
         }
     },
     {
         "type": "function",
         "function": {
-            "name": "compare_player", 
-            "description": "Get the comparison dictionary of the given two players",
+            "name": "compare_malware",
+            "description": "Get a comparison dictionary of the given two malware families",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "player1": {
+                    "malware1": {
                         "type": "string",
-                        "description": "Player Name e.g Rohit Sharma, Virat Kohli etc"
+                        "description": "Malware family name e.g WannaCry, NotPetya etc"
                     },
-                    "player2": {
+                    "malware2": {
                         "type": "string",
-                        "description": "Player Name e.g Rohit Sharma, Virat Kohli etc"
+                        "description": "Malware family name e.g WannaCry, NotPetya etc"
                     }
                 },
-                "required": ["player1", "player2"] 
+                "required": ["malware1", "malware2"]
             }
         }
     }
 ]
 
-def get_cricket_stats(player_name):
-    stats = {
-        "Virat Kohli": {"matches": 242, "runs": 7263, "average": 37.9, "hundreds": 8},
-        "Rohit Sharma": {"matches": 243, "runs": 6211, "average": 31.2, "hundreds": 2},
-        "MS Dhoni": {"matches": 350, "runs": 5082, "average": 39.4, "hundreds": 0},
+def get_malware_info(malware_name):
+    database = {
+        "WannaCry": {"type": "Ransomware", "year": 2017, "propagation": "EternalBlue SMB exploit", "polymorphic": False},
+        "NotPetya": {"type": "Wiper/Ransomware", "year": 2017, "propagation": "EternalBlue + credential theft", "polymorphic": False},
+        "Emotet": {"type": "Trojan/Botnet", "year": 2014, "propagation": "Phishing, macro documents", "polymorphic": True},
     }
-    return stats.get(player_name, {"error": "Player not found"})
+    return database.get(malware_name, {"error": "Malware family not found"})
 
-def calculate_strike_rate(runs, balls):
-    if balls == 0:
-        return {"error": "balls cannot be zero"}
-    return {"strike_rate": round((runs/balls)*100, 2)}
+def calculate_detection_confidence(score, checks):
+    if checks == 0:
+        return {"error": "checks cannot be zero"}
+    confidence = round((score * checks) / checks * 100, 2)
+    return {"detection_confidence_percent": confidence}
 
-def compare_player(player1, player2):
-    player1_stats = get_cricket_stats(player1)
-    player2_stats = get_cricket_stats(player2)
-
-    comparison_dict = {player1: player1_stats, player2: player2_stats}
+def compare_malware(malware1, malware2):
+    malware1_info = get_malware_info(malware1)
+    malware2_info = get_malware_info(malware2)
+    comparison_dict = {malware1: malware1_info, malware2: malware2_info}
     return comparison_dict
 
 functions = {
-    "get_cricket_stats": get_cricket_stats,
-    "calculate_strike_rate": calculate_strike_rate,
-    "compare_player": compare_player
+    "get_malware_info": get_malware_info,
+    "calculate_detection_confidence": calculate_detection_confidence,
+    "compare_malware": compare_malware
 }
 
 for i in range(len(queries)):
@@ -118,7 +118,7 @@ for i in range(len(queries)):
         function_name = tool_call.function.name
         arguments = json.loads(tool_call.function.arguments)
 
-        print(f"LLM want to run: {function_name}{arguments}")
+        print(f"LLM wants to run: {function_name}{arguments}")
 
         result = functions[function_name](**arguments)
 

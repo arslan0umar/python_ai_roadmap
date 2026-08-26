@@ -21,7 +21,7 @@ building one project every day.
 - OS Expert Chatbot (Groq, conversation history, token tracking)
 - Document Summarizer (role-based, few-shot, JSON prompting)
 - Multi-model API Wrapper (streaming, cost tracking, retry logic)
-- Cricket Data Extractor (function calling, tool use loop)
+- LLM-Based Malware Intelligence Assistant (Function Calling, tool use loop)
 
 ### Week 4 — RAG & Vector Stores
 *(coming)*
